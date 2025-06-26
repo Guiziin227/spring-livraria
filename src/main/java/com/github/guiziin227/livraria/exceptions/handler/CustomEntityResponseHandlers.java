@@ -1,5 +1,6 @@
 package com.github.guiziin227.livraria.exceptions.handler;
 
+import com.github.guiziin227.livraria.exceptions.DbIntegrityException;
 import com.github.guiziin227.livraria.exceptions.ExceptionResponse;
 import com.github.guiziin227.livraria.exceptions.NullableRequestException;
 import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
@@ -45,6 +46,16 @@ public class CustomEntityResponseHandlers extends ResponseEntityExceptionHandler
                 new Date()
         );
         return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({DbIntegrityException.class})
+    public final ResponseEntity<ExceptionResponse> handleDbIntegrityException(Exception ex, WebRequest request) {
+        ExceptionResponse resp = new ExceptionResponse(
+                ex.getMessage(),
+                request.getDescription(false),
+                new Date()
+        );
+        return new ResponseEntity<>(resp, HttpStatus.BAD_GATEWAY);
     }
 
 }
