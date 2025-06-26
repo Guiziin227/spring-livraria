@@ -15,11 +15,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-
 
 @Getter
 @Setter
@@ -27,7 +28,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_livro")
-public class Livro {
+public class Livro implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,12 +43,13 @@ public class Livro {
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     @Column(nullable = false)
     private BigDecimal preco;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(nullable = false, name = "editora_id")
     private Editora publisher;
 
