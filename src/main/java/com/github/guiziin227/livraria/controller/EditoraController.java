@@ -1,8 +1,11 @@
 package com.github.guiziin227.livraria.controller;
 
+import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
 import com.github.guiziin227.livraria.model.Editora;
+import com.github.guiziin227.livraria.model.Livro;
 import com.github.guiziin227.livraria.services.EditoraService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,13 +39,19 @@ public class EditoraController {
         return editoraService.getAllEditoras();
     }
 
-    @PutMapping
-    public Editora updateEditora(@RequestBody Editora editora) {
-        return editoraService.updateEditora(editora);
+    @PutMapping("/{id}")
+    public Editora updateEditora(@PathVariable Long id, @RequestBody Editora editora) {
+        return editoraService.updateEditora(id, editora);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteEditora(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEditora(@PathVariable Long id) {
         editoraService.deleteEditora(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/livros")
+    public List<Livro> getLivrosByEditora(@PathVariable Long id) {
+        return editoraService.getLivrosByEditoraId(id);
     }
 }
