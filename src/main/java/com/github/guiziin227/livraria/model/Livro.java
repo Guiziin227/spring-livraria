@@ -1,5 +1,7 @@
 package com.github.guiziin227.livraria.model;
 
+import com.github.guiziin227.livraria.model.JOIN.LivroCategoria;
+import com.github.guiziin227.livraria.model.PK.LivroCategoriaPK;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -20,7 +23,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -52,6 +57,34 @@ public class Livro implements Serializable {
     @ManyToOne
     @JoinColumn(nullable = false, name = "editora_id")
     private Editora publisher;
+
+    @OneToMany(mappedBy = "livro")
+    private Set<LivroCategoria> livroCategories = new HashSet<>();
+
+    // Métodos utilitários para gerenciar categorias
+    public Set<Categoria> getCategorias() {
+        return livroCategories.stream()
+                .map(LivroCategoria::getCategoria)
+                .collect(java.util.stream.Collectors.toSet());
+    }
+
+    public void addCategoria(Categoria categoria) {
+        LivroCategoriaPK pk = new LivroCategoriaPK(this.id, categoria.getId());
+        LivroCategoria livroCategoria = new LivroCategoria(pk, this, categoria);
+        this.livroCategories.add(livroCategoria);
+        categoria.getLivroCategories().add(livroCategoria);
+    }
+
+    public void removeCategoria(Categoria categoria) {
+        LivroCategoria livroCategoria = livroCategories.stream()
+                .filter(lc -> lc.getCategoria().equals(categoria))
+                .findFirst()
+                .orElse(null);
+        if (livroCategoria != null) {
+            this.livroCategories.remove(livroCategoria);
+            categoria.getLivroCategories().remove(livroCategoria);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
