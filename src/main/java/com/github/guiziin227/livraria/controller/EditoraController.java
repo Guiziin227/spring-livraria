@@ -6,6 +6,7 @@ import com.github.guiziin227.livraria.dto.LivroResponseDTO;
 import com.github.guiziin227.livraria.services.EditoraService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,32 +26,38 @@ public class EditoraController {
     private EditoraService editoraService;
 
     @PostMapping
-    public EditoraResponseDTO createEditora(@Valid @RequestBody EditoraRequestDTO editoraDTO) {
-        return editoraService.createEditora(editoraDTO);
+    public ResponseEntity<EditoraResponseDTO> createEditora(@Valid @RequestBody EditoraRequestDTO editoraDTO) {
+        EditoraResponseDTO createdEditora = editoraService.createEditora(editoraDTO);
+        return ResponseEntity.status(201).body(createdEditora);
     }
 
     @GetMapping("/{id}")
-    public EditoraResponseDTO getEditoraById(@PathVariable Long id) {
-        return editoraService.getEditoraById(id);
+    public ResponseEntity<EditoraResponseDTO> getEditoraById(@PathVariable Long id) {
+        EditoraResponseDTO editora = editoraService.getEditoraById(id);
+        return ResponseEntity.ok(editora);
     }
 
     @GetMapping
-    public List<EditoraResponseDTO> getAllEditoras() {
-        return editoraService.getAllEditoras();
+    public ResponseEntity<List<EditoraResponseDTO>> getAllEditoras() {
+        List<EditoraResponseDTO> editoras = editoraService.getAllEditoras();
+        return ResponseEntity.ok(editoras);
     }
 
     @PutMapping("/{id}")
-    public EditoraResponseDTO updateEditora(@PathVariable Long id, @Valid @RequestBody EditoraRequestDTO editoraDTO) {
-        return editoraService.updateEditora(id, editoraDTO);
+    public ResponseEntity<EditoraResponseDTO> updateEditora(@PathVariable Long id, @Valid @RequestBody EditoraRequestDTO editoraDTO) {
+        EditoraResponseDTO updatedEditora = editoraService.updateEditora(id, editoraDTO);
+        return ResponseEntity.ok(updatedEditora);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteEditora(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteEditora(@PathVariable Long id) {
         editoraService.deleteEditora(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/livros")
-    public List<LivroResponseDTO> getLivrosByEditora(@PathVariable Long id) {
-        return editoraService.getLivrosByEditoraId(id);
+    public ResponseEntity<List<LivroResponseDTO>> getLivrosByEditora(@PathVariable Long id) {
+        List<LivroResponseDTO> livros = editoraService.getLivrosByEditoraId(id);
+        return ResponseEntity.ok(livros);
     }
 }
