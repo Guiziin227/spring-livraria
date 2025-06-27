@@ -3,6 +3,7 @@ package com.github.guiziin227.livraria.controller;
 import com.github.guiziin227.livraria.model.Livro;
 import com.github.guiziin227.livraria.services.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +28,11 @@ public class LivroController {
     }
 
     @GetMapping("/{id}")
-    public Livro getLivroById(@PathVariable Long id) {
-        return livroService.getLivroById(id);
+    public ResponseEntity<Livro> getLivroById(@PathVariable Long id) {
+
+        Livro livro = livroService.getLivroById(id);
+
+        return ResponseEntity.ok(livro);
     }
 
     @GetMapping
@@ -36,14 +40,15 @@ public class LivroController {
         return livroService.getAllLivros();
     }
 
-    @PutMapping
-    public Livro updateLivro(@RequestBody Livro livro) {
-        return livroService.updateLivro(livro);
+    @PutMapping("/{id}")
+    public Livro updateLivro(@PathVariable Long id,@RequestBody Livro livro) {
+        return livroService.updateLivro(id,livro);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLivro(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteLivro(@PathVariable Long id) {
         livroService.deleteLivro(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
