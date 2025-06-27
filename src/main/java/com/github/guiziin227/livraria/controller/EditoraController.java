@@ -1,11 +1,11 @@
 package com.github.guiziin227.livraria.controller;
 
-import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
-import com.github.guiziin227.livraria.model.Editora;
-import com.github.guiziin227.livraria.model.Livro;
+import com.github.guiziin227.livraria.dto.EditoraRequestDTO;
+import com.github.guiziin227.livraria.dto.EditoraResponseDTO;
+import com.github.guiziin227.livraria.dto.LivroResponseDTO;
 import com.github.guiziin227.livraria.services.EditoraService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,33 +25,32 @@ public class EditoraController {
     private EditoraService editoraService;
 
     @PostMapping
-    public Editora createEditora(@RequestBody Editora editora) {
-        return editoraService.createEditora(editora);
+    public EditoraResponseDTO createEditora(@Valid @RequestBody EditoraRequestDTO editoraDTO) {
+        return editoraService.createEditora(editoraDTO);
     }
 
     @GetMapping("/{id}")
-    public Editora getEditoraById(@PathVariable Long id) {
+    public EditoraResponseDTO getEditoraById(@PathVariable Long id) {
         return editoraService.getEditoraById(id);
     }
 
     @GetMapping
-    public List<Editora> getAllEditoras() {
+    public List<EditoraResponseDTO> getAllEditoras() {
         return editoraService.getAllEditoras();
     }
 
     @PutMapping("/{id}")
-    public Editora updateEditora(@PathVariable Long id, @RequestBody Editora editora) {
-        return editoraService.updateEditora(id, editora);
+    public EditoraResponseDTO updateEditora(@PathVariable Long id, @Valid @RequestBody EditoraRequestDTO editoraDTO) {
+        return editoraService.updateEditora(id, editoraDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEditora(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public void deleteEditora(@PathVariable Long id) {
         editoraService.deleteEditora(id);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/livros")
-    public List<Livro> getLivrosByEditora(@PathVariable Long id) {
+    public List<LivroResponseDTO> getLivrosByEditora(@PathVariable Long id) {
         return editoraService.getLivrosByEditoraId(id);
     }
 }

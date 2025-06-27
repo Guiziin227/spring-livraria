@@ -1,9 +1,10 @@
 package com.github.guiziin227.livraria.controller;
 
-import com.github.guiziin227.livraria.model.Livro;
+import com.github.guiziin227.livraria.dto.LivroRequestDTO;
+import com.github.guiziin227.livraria.dto.LivroResponseDTO;
 import com.github.guiziin227.livraria.services.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,32 +24,27 @@ public class LivroController {
     private LivroService livroService;
 
     @PostMapping
-    public Livro createLivro(@RequestBody Livro livro) {
-        return livroService.createLivro(livro);
+    public LivroResponseDTO createLivro(@Valid @RequestBody LivroRequestDTO livroDTO) {
+        return livroService.createLivro(livroDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Livro> getLivroById(@PathVariable Long id) {
-
-        Livro livro = livroService.getLivroById(id);
-
-        return ResponseEntity.ok(livro);
+    public LivroResponseDTO getLivroById(@PathVariable Long id) {
+        return livroService.getLivroById(id);
     }
 
     @GetMapping
-    public List<Livro> getAllLivros() {
+    public List<LivroResponseDTO> getAllLivros() {
         return livroService.getAllLivros();
     }
 
     @PutMapping("/{id}")
-    public Livro updateLivro(@PathVariable Long id,@RequestBody Livro livro) {
-        return livroService.updateLivro(id,livro);
+    public LivroResponseDTO updateLivro(@PathVariable Long id, @Valid @RequestBody LivroRequestDTO livroDTO) {
+        return livroService.updateLivro(id, livroDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLivro(@PathVariable Long id) {
+    public void deleteLivro(@PathVariable Long id) {
         livroService.deleteLivro(id);
-        return ResponseEntity.noContent().build();
     }
-
 }

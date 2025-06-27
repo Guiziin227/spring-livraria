@@ -1,11 +1,14 @@
 package com.github.guiziin227.livraria.services;
 
+import com.github.guiziin227.livraria.dto.LivroRequestDTO;
+import com.github.guiziin227.livraria.dto.LivroResponseDTO;
 import com.github.guiziin227.livraria.exceptions.NullableRequestException;
 import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
-import com.github.guiziin227.livraria.model.Livro;
-import com.github.guiziin227.livraria.repositories.LivroRepository;
+import com.github.guiziin227.livraria.mapper.LivroMapper;
 import com.github.guiziin227.livraria.model.Editora;
+import com.github.guiziin227.livraria.model.Livro;
 import com.github.guiziin227.livraria.repositories.EditoraRepositoy;
+import com.github.guiziin227.livraria.repositories.LivroRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,67 +28,92 @@ public class LivroService {
     @Autowired
     private EditoraRepositoy editoraRepository;
 
-    @Transactional
-    public Livro createLivro(Livro livro) {
-        logger.info("Criando um Livro: {}", livro.getTitulo());
+    @Autowired
+    private LivroMapper livroMapper;
 
+    @Transactional
+    public LivroResponseDTO createLivro(LivroRequestDTO livroDTO) {
+        logger.info("Criando um Livro: {}", livroDTO.titulo());
+
+        // Verificar se a editora existe
+        if (livroDTO.publisher() != null && livroDTO.publisher().id() != null) {
+            if (!editoraRepository.existsById(livroDTO.publisher().id())) {
+                throw new ResourceNotFoundException("Editora não encontrada com ID: " + livroDTO.publisher().id());
+            }
+        }
+
+        Livro livro = livroMapper.toEntity(livroDTO);
+
+        // Buscar a editora completa
         if (livro.getPublisher() != null && livro.getPublisher().getId() != null) {
             Editora editora = editoraRepository.findById(livro.getPublisher().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Editora não encontrada com ID: " + livro.getPublisher().getId()));
             livro.setPublisher(editora);
         }
-        return livroRepository.save(livro);
+
+        Livro livroSalvo = livroRepository.save(livro);
+        return livroMapper.toResponseDTO(livroSalvo);
     }
 
     @Transactional(readOnly = true)
-    public Livro getLivroById(Long id) {
+    public LivroResponseDTO getLivroById(Long id) {
         logger.info("Buscando Livro com ID: {}", id);
-        var entity = livroRepository.findById(id)
+        Livro livro = livroRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado com ID: " + id));
 
-        logger.info("Livro encontrado: {}", entity.getTitulo());
-        return entity;
+        // Carregar a editora completa
+        if (livro.getPublisher() != null) {
+            Editora editora = editoraRepository.findById(livro.getPublisher().getId()).orElse(null);
+            livro.setPublisher(editora);
+        }
+
+        return livroMapper.toResponseDTO(livro);
     }
 
     @Transactional(readOnly = true)
-    public List<Livro> getAllLivros() {
+    public List<LivroResponseDTO> getAllLivros() {
         logger.info("Buscando todos os Livros");
-        return livroRepository.findAll();
+        List<Livro> livros = livroRepository.findAll();
+
+        // Carregar a editora completa para cada livro
+        for (Livro livro : livros) {
+            if (livro.getPublisher() != null) {
+                Editora editora = editoraRepository.findById(livro.getPublisher().getId()).orElse(null);
+                livro.setPublisher(editora);
+            }
+        }
+
+        return livroMapper.toResponseDTOList(livros);
     }
 
     @Transactional
-    public Livro updateLivro(Long id, Livro livro) {
+    public LivroResponseDTO updateLivro(Long id, LivroRequestDTO livroDTO) {
+        logger.info("Atualizando Livro com ID: {}", id);
 
-        logger.info("Atualizando Livro com ID: {}", livro.getId());
+        Livro livroAtual = livroRepository.findById(id)
+               .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado com ID: " + id));
 
-        if (id == null) {
-            throw new NullableRequestException("ID do livro não pode ser nulo para atualização.");
+        // Atualizar campos básicos
+        livroMapper.updateEntityFromDTO(livroDTO, livroAtual);
+
+        // Atualizar editora se fornecida
+        if (livroDTO.publisher() != null && livroDTO.publisher().id() != null) {
+            Editora editora = editoraRepository.findById(livroDTO.publisher().id())
+                    .orElseThrow(() -> new ResourceNotFoundException("Editora não encontrada com ID: " + livroDTO.publisher().id()));
+            livroAtual.setPublisher(editora);
         }
 
-       Livro livroAtual = livroRepository.findById(id)
-               .orElseThrow(
-                          () -> new ResourceNotFoundException("Livro não encontrado com ID: " + id)
-               );
-
-        livroAtual.setTitulo(livro.getTitulo());
-        livroAtual.setPreco(livro.getPreco());
-
-        return livroRepository.save(livroAtual);
+        Livro livroAtualizado = livroRepository.save(livroAtual);
+        return livroMapper.toResponseDTO(livroAtualizado);
     }
 
     @Transactional
     public void deleteLivro(Long id) {
-
         logger.info("Deletando Livro com ID: {}", id);
 
-        if (livroRepository.existsById(id)) {
-            livroRepository.deleteById(id);
-        } else {
+        if (!livroRepository.existsById(id)) {
             throw new ResourceNotFoundException("Livro não encontrado com ID: " + id);
         }
+        livroRepository.deleteById(id);
     }
-
-
-
-
 }
