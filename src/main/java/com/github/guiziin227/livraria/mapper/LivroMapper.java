@@ -2,6 +2,7 @@ package com.github.guiziin227.livraria.mapper;
 
 import com.github.guiziin227.livraria.dto.LivroRequestDTO;
 import com.github.guiziin227.livraria.dto.LivroResponseDTO;
+import com.github.guiziin227.livraria.dto.LivroSimpleDTO;
 import com.github.guiziin227.livraria.model.Editora;
 import com.github.guiziin227.livraria.model.Livro;
 import org.mapstruct.Mapper;
@@ -39,6 +40,11 @@ public interface LivroMapper {
      * Converte lista de Livro para lista de LivroResponseDTO
      */
     List<LivroResponseDTO> toResponseDTOList(List<Livro> livros);
+
+    /**
+     * Converte Livro para LivroSimpleDTO (usado em relacionamentos)
+     */
+    LivroSimpleDTO toSimpleDTO(Livro livro);
 
     /**
      * Atualiza uma entidade Livro existente com dados do DTO
