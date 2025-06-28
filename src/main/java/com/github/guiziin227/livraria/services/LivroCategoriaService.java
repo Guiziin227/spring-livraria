@@ -1,5 +1,6 @@
 package com.github.guiziin227.livraria.services;
 
+import com.github.guiziin227.livraria.exceptions.DbIntegrityException;
 import com.github.guiziin227.livraria.model.Categoria;
 import com.github.guiziin227.livraria.model.Livro;
 import com.github.guiziin227.livraria.model.JOIN.LivroCategoria;
@@ -8,16 +9,19 @@ import com.github.guiziin227.livraria.repositories.LivroCategoriaRepository;
 import com.github.guiziin227.livraria.repositories.LivroRepository;
 import com.github.guiziin227.livraria.repositories.CategoriaRepository;
 import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class LivroCategoriaService {
+
+    Logger logger = LoggerFactory.getLogger(LivroCategoriaService.class);
 
     @Autowired
     private LivroCategoriaRepository livroCategoriaRepository;
@@ -30,6 +34,7 @@ public class LivroCategoriaService {
 
     @Transactional
     public LivroCategoria associarLivroCategoria(Long livroId, Long categoriaId) {
+        logger.info("Associando Livro ID: {} com Categoria ID: {}", livroId, categoriaId);
         Livro livro = livroRepository.findById(livroId)
                 .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado com ID: " + livroId));
 
@@ -38,7 +43,8 @@ public class LivroCategoriaService {
 
         // Verificar se a associação já existe
         if (livroCategoriaRepository.existsByLivroIdAndCategoriaId(livroId, categoriaId)) {
-            throw new IllegalArgumentException("Associação entre livro e categoria já existe");
+            logger.warn("Associação entre Livro ID: {} e Categoria ID: {} já existe", livroId, categoriaId);
+            throw new DbIntegrityException("Associação entre livro e categoria já existe");
         }
 
         LivroCategoriaPK pk = new LivroCategoriaPK(livroId, categoriaId);
@@ -49,6 +55,7 @@ public class LivroCategoriaService {
 
     @Transactional
     public void desassociarLivroCategoria(Long livroId, Long categoriaId) {
+        logger.info("Desassociando Livro ID: {} de Categoria ID: {}", livroId, categoriaId);
         LivroCategoriaPK pk = new LivroCategoriaPK(livroId, categoriaId);
 
         if (!livroCategoriaRepository.existsById(pk)) {
@@ -59,6 +66,7 @@ public class LivroCategoriaService {
     }
 
     public List<Categoria> buscarCategoriasPorLivro(Long livroId) {
+        logger.info("Buscando categorias para Livro ID: {}", livroId);
         if (!categoriaRepository.existsById(livroId)) {
             throw new ResourceNotFoundException("Categoria não encontrada com ID: " + livroId);
         }
@@ -70,6 +78,7 @@ public class LivroCategoriaService {
     }
 
     public List<Livro> buscarLivrosPorCategoria(Long categoriaId) {
+        logger.info("Buscando livros para Categoria ID: {}", categoriaId);
         if (!categoriaRepository.existsById(categoriaId)) {
             throw new ResourceNotFoundException("Livro não encontrado com ID: " + categoriaId);
         }
