@@ -1,6 +1,7 @@
 package com.github.guiziin227.livraria.services;
 
 import com.github.guiziin227.livraria.dto.requests.AutorRequestDTO;
+import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
 import com.github.guiziin227.livraria.mapper.AutorMapper;
 import com.github.guiziin227.livraria.model.Autor;
 import com.github.guiziin227.livraria.repositories.AutorRepository;
@@ -32,7 +33,7 @@ public class AutorService {
     public Autor findById(Long id) {
         logger.info("Buscando autor com ID: {}", id);
         return autorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Autor não encontrado com ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Autor não encontrado com ID: " + id));
     }
 
     public List<Autor> findAll() {
@@ -40,7 +41,7 @@ public class AutorService {
         List<Autor> autores = autorRepository.findAll();
         if (autores.isEmpty()) {
             logger.warn("Nenhum autor encontrado.");
-            throw new RuntimeException("Nenhum autor encontrado.");
+            throw new ResourceNotFoundException("Nenhum autor encontrado.");
         }
         return autores;
     }
@@ -57,7 +58,7 @@ public class AutorService {
     public void deleteById(Long id) {
         logger.info("Deletando autor com ID: {}", id);
         if (!autorRepository.existsById(id)) {
-            throw new RuntimeException("Autor não encontrado com ID: " + id);
+            throw new ResourceNotFoundException("Autor não encontrado com ID: " + id);
         }
         autorRepository.deleteById(id);
         logger.info("Autor deletado com sucesso.");
