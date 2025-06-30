@@ -1,7 +1,7 @@
 package com.github.guiziin227.livraria.controller;
 
-import com.github.guiziin227.livraria.dto.LivroRequestDTO;
-import com.github.guiziin227.livraria.dto.LivroResponseDTO;
+import com.github.guiziin227.livraria.dto.requests.LivroRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.LivroResponseDTO;
 import com.github.guiziin227.livraria.services.LivroService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

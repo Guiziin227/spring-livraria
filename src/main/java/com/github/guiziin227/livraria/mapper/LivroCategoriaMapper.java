@@ -1,6 +1,6 @@
 package com.github.guiziin227.livraria.mapper;
 
-import com.github.guiziin227.livraria.dto.LivroCategoriaResponseDTO;
+import com.github.guiziin227.livraria.dto.responses.LivroCategoriaResponseDTO;
 import com.github.guiziin227.livraria.model.JOIN.LivroCategoria;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

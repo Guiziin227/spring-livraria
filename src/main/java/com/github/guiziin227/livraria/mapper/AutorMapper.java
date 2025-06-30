@@ -1,10 +1,9 @@
 package com.github.guiziin227.livraria.mapper;
 
-import com.github.guiziin227.livraria.dto.AutorRequestDTO;
-import com.github.guiziin227.livraria.dto.AutorResponseDTO;
-import com.github.guiziin227.livraria.dto.AutorSimpleDTO;
+import com.github.guiziin227.livraria.dto.requests.AutorRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.AutorResponseDTO;
+import com.github.guiziin227.livraria.dto.simples.AutorSimpleDTO;
 import com.github.guiziin227.livraria.model.Autor;
-import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;

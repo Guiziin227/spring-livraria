@@ -1,6 +1,6 @@
 package com.github.guiziin227.livraria.services;
 
-import com.github.guiziin227.livraria.dto.AutorRequestDTO;
+import com.github.guiziin227.livraria.dto.requests.AutorRequestDTO;
 import com.github.guiziin227.livraria.mapper.AutorMapper;
 import com.github.guiziin227.livraria.model.Autor;
 import com.github.guiziin227.livraria.repositories.AutorRepository;

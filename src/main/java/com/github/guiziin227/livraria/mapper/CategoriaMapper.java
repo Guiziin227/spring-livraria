@@ -1,8 +1,8 @@
 package com.github.guiziin227.livraria.mapper;
 
-import com.github.guiziin227.livraria.dto.CategoriaRequestDTO;
-import com.github.guiziin227.livraria.dto.CategoriaResponseDTO;
-import com.github.guiziin227.livraria.dto.CategoriaSimpleDTO;
+import com.github.guiziin227.livraria.dto.requests.CategoriaRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.CategoriaResponseDTO;
+import com.github.guiziin227.livraria.dto.simples.CategoriaSimpleDTO;
 import com.github.guiziin227.livraria.model.Categoria;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

@@ -1,7 +1,7 @@
 package com.github.guiziin227.livraria.controller;
 
-import com.github.guiziin227.livraria.dto.CategoriaRequestDTO;
-import com.github.guiziin227.livraria.dto.CategoriaResponseDTO;
+import com.github.guiziin227.livraria.dto.requests.CategoriaRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.CategoriaResponseDTO;
 import com.github.guiziin227.livraria.mapper.CategoriaMapper;
 import com.github.guiziin227.livraria.model.Categoria;
 import com.github.guiziin227.livraria.services.CategoriaService;

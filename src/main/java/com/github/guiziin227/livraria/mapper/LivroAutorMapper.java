@@ -1,9 +1,7 @@
 package com.github.guiziin227.livraria.mapper;
 
-import com.github.guiziin227.livraria.dto.LivroAutorResponseDTO;
-import com.github.guiziin227.livraria.dto.LivroCategoriaResponseDTO;
+import com.github.guiziin227.livraria.dto.responses.LivroAutorResponseDTO;
 import com.github.guiziin227.livraria.model.JOIN.LivroAutor;
-import com.github.guiziin227.livraria.model.JOIN.LivroCategoria;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

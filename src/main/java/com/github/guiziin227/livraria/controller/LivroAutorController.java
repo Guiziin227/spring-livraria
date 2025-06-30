@@ -1,9 +1,9 @@
 package com.github.guiziin227.livraria.controller;
 
-import com.github.guiziin227.livraria.dto.AutorResponseDTO;
-import com.github.guiziin227.livraria.dto.LivroAutorRequestDTO;
-import com.github.guiziin227.livraria.dto.LivroAutorResponseDTO;
-import com.github.guiziin227.livraria.dto.LivroResponseDTO;
+import com.github.guiziin227.livraria.dto.responses.AutorResponseDTO;
+import com.github.guiziin227.livraria.dto.requests.LivroAutorRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.LivroAutorResponseDTO;
+import com.github.guiziin227.livraria.dto.responses.LivroResponseDTO;
 import com.github.guiziin227.livraria.mapper.AutorMapper;
 import com.github.guiziin227.livraria.mapper.LivroAutorMapper;
 import com.github.guiziin227.livraria.mapper.LivroMapper;

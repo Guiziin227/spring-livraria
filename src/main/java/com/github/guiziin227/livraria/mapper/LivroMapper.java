@@ -1,10 +1,10 @@
 package com.github.guiziin227.livraria.mapper;
 
-import com.github.guiziin227.livraria.dto.AutorSimpleDTO;
-import com.github.guiziin227.livraria.dto.CategoriaSimpleDTO;
-import com.github.guiziin227.livraria.dto.LivroRequestDTO;
-import com.github.guiziin227.livraria.dto.LivroResponseDTO;
-import com.github.guiziin227.livraria.dto.LivroSimpleDTO;
+import com.github.guiziin227.livraria.dto.simples.AutorSimpleDTO;
+import com.github.guiziin227.livraria.dto.simples.CategoriaSimpleDTO;
+import com.github.guiziin227.livraria.dto.requests.LivroRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.LivroResponseDTO;
+import com.github.guiziin227.livraria.dto.simples.LivroSimpleDTO;
 import com.github.guiziin227.livraria.model.Editora;
 import com.github.guiziin227.livraria.model.JOIN.LivroAutor;
 import com.github.guiziin227.livraria.model.JOIN.LivroCategoria;

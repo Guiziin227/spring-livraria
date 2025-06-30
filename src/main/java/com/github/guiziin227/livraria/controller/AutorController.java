@@ -1,10 +1,9 @@
 package com.github.guiziin227.livraria.controller;
 
-import com.github.guiziin227.livraria.dto.AutorRequestDTO;
-import com.github.guiziin227.livraria.dto.AutorResponseDTO;
+import com.github.guiziin227.livraria.dto.requests.AutorRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.AutorResponseDTO;
 import com.github.guiziin227.livraria.mapper.AutorMapper;
 import com.github.guiziin227.livraria.model.Autor;
-import com.github.guiziin227.livraria.repositories.AutorRepository;
 import com.github.guiziin227.livraria.services.AutorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

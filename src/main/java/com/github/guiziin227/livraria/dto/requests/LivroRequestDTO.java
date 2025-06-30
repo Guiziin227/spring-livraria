@@ -1,5 +1,7 @@
-package com.github.guiziin227.livraria.dto;
+package com.github.guiziin227.livraria.dto.requests;
 
+import com.github.guiziin227.livraria.dto.simples.AutorSimpleDTO;
+import com.github.guiziin227.livraria.dto.simples.CategoriaSimpleDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

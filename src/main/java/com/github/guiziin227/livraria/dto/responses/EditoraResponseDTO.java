@@ -1,4 +1,4 @@
-package com.github.guiziin227.livraria.dto;
+package com.github.guiziin227.livraria.dto.responses;
 
 /**
  * DTO para respostas de Editora

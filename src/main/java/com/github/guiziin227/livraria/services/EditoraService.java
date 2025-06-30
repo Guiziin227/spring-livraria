@@ -1,8 +1,8 @@
 package com.github.guiziin227.livraria.services;
 
-import com.github.guiziin227.livraria.dto.EditoraRequestDTO;
-import com.github.guiziin227.livraria.dto.EditoraResponseDTO;
-import com.github.guiziin227.livraria.dto.LivroResponseDTO;
+import com.github.guiziin227.livraria.dto.requests.EditoraRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.EditoraResponseDTO;
+import com.github.guiziin227.livraria.dto.responses.LivroResponseDTO;
 import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
 import com.github.guiziin227.livraria.mapper.EditoraMapper;
 import com.github.guiziin227.livraria.mapper.LivroMapper;

@@ -3,7 +3,7 @@ package com.github.guiziin227.livraria.services;
 import com.github.guiziin227.livraria.model.Categoria;
 import com.github.guiziin227.livraria.repositories.CategoriaRepository;
 import com.github.guiziin227.livraria.exceptions.ResourceNotFoundException;
-import com.github.guiziin227.livraria.dto.CategoriaRequestDTO;
+import com.github.guiziin227.livraria.dto.requests.CategoriaRequestDTO;
 import com.github.guiziin227.livraria.mapper.CategoriaMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,7 @@
-package com.github.guiziin227.livraria.dto;
+package com.github.guiziin227.livraria.dto.responses;
+
+import com.github.guiziin227.livraria.dto.simples.AutorSimpleDTO;
+import com.github.guiziin227.livraria.dto.simples.CategoriaSimpleDTO;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.github.guiziin227.livraria.mapper;
 
-import com.github.guiziin227.livraria.dto.EditoraRequestDTO;
-import com.github.guiziin227.livraria.dto.EditoraResponseDTO;
+import com.github.guiziin227.livraria.dto.requests.EditoraRequestDTO;
+import com.github.guiziin227.livraria.dto.responses.EditoraResponseDTO;
 import com.github.guiziin227.livraria.model.Editora;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
