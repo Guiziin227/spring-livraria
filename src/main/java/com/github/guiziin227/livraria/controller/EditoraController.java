@@ -49,7 +49,7 @@ public class EditoraController {
         return ResponseEntity.ok(updatedEditora);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEditora(@PathVariable Long id) {
         editoraService.deleteEditora(id);
         return ResponseEntity.noContent().build();
