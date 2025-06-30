@@ -1,9 +1,13 @@
 package com.github.guiziin227.livraria.mapper;
 
+import com.github.guiziin227.livraria.dto.AutorSimpleDTO;
+import com.github.guiziin227.livraria.dto.CategoriaSimpleDTO;
 import com.github.guiziin227.livraria.dto.LivroRequestDTO;
 import com.github.guiziin227.livraria.dto.LivroResponseDTO;
 import com.github.guiziin227.livraria.dto.LivroSimpleDTO;
 import com.github.guiziin227.livraria.model.Editora;
+import com.github.guiziin227.livraria.model.JOIN.LivroAutor;
+import com.github.guiziin227.livraria.model.JOIN.LivroCategoria;
 import com.github.guiziin227.livraria.model.Livro;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,12 +18,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Mapper para conversões entre Livro e seus DTOs
  */
 @Mapper(componentModel = "spring",
-        uses = {EditoraMapper.class},
+        uses = {EditoraMapper.class, CategoriaMapper.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LivroMapper {
 
@@ -34,6 +39,8 @@ public interface LivroMapper {
      * Converte Livro para LivroResponseDTO
      */
     @Mapping(target = "date", source = "date", qualifiedByName = "dateToString")
+    @Mapping(target = "category", source = "livroCategories", qualifiedByName = "mapCategories")
+    @Mapping(target = "authors", source = "livroAutores", qualifiedByName = "mapAuthors")
     LivroResponseDTO toResponseDTO(Livro livro);
 
     /**
@@ -92,5 +99,41 @@ public interface LivroMapper {
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(date);
+    }
+
+    /**
+     * Mapeia Set<LivroCategoria> para List<CategoriaSimpleDTO>
+     */
+    @org.mapstruct.Named("mapCategories")
+    default List<CategoriaSimpleDTO> mapCategories(Set<LivroCategoria> livroCategories) {
+        if (livroCategories == null || livroCategories.isEmpty()) {
+            return null;
+        }
+
+        return livroCategories.stream()
+                .map(livroCategoria -> {
+                    var categoria = livroCategoria.getCategoria();
+                    return new CategoriaSimpleDTO(
+                            categoria.getId(),
+                            categoria.getName()
+                    );
+                })
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    @org.mapstruct.Named("mapAuthors")
+    default List<AutorSimpleDTO> mapAuthors(Set<LivroAutor> livroAutors) {
+        if (livroAutors == null || livroAutors.isEmpty()) {
+            return null;
+        }
+
+        return livroAutors.stream()
+                .flatMap(livroCategoria -> livroCategoria.getLivro().getAutores().stream())
+                .map(autor -> new AutorSimpleDTO(
+                        autor.getId(),
+                        autor.getName()
+                ))
+                .distinct()
+                .collect(java.util.stream.Collectors.toList());
     }
 }

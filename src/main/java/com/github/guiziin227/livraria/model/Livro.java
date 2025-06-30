@@ -1,5 +1,6 @@
 package com.github.guiziin227.livraria.model;
 
+import com.github.guiziin227.livraria.model.JOIN.LivroAutor;
 import com.github.guiziin227.livraria.model.JOIN.LivroCategoria;
 import com.github.guiziin227.livraria.model.PK.LivroCategoriaPK;
 import jakarta.persistence.Column;
@@ -61,29 +62,21 @@ public class Livro implements Serializable {
     @OneToMany(mappedBy = "livro")
     private Set<LivroCategoria> livroCategories = new HashSet<>();
 
-    // Métodos utilitários para gerenciar categorias
+    @OneToMany(mappedBy = "livro")
+    private Set<LivroAutor> livroAutores = new HashSet<>();
+
+    // Método utilitário para obter categorias (usado pelos mappers/DTOs)
     public Set<Categoria> getCategorias() {
         return livroCategories.stream()
                 .map(LivroCategoria::getCategoria)
                 .collect(java.util.stream.Collectors.toSet());
     }
 
-    public void addCategoria(Categoria categoria) {
-        LivroCategoriaPK pk = new LivroCategoriaPK(this.id, categoria.getId());
-        LivroCategoria livroCategoria = new LivroCategoria(pk, this, categoria);
-        this.livroCategories.add(livroCategoria);
-        categoria.getLivroCategories().add(livroCategoria);
-    }
-
-    public void removeCategoria(Categoria categoria) {
-        LivroCategoria livroCategoria = livroCategories.stream()
-                .filter(lc -> lc.getCategoria().equals(categoria))
-                .findFirst()
-                .orElse(null);
-        if (livroCategoria != null) {
-            this.livroCategories.remove(livroCategoria);
-            categoria.getLivroCategories().remove(livroCategoria);
-        }
+    // Método utilitário para obter autores (usado pelos mappers/DTOs)
+    public Set<Autor> getAutores() {
+        return livroAutores.stream()
+                .map(LivroAutor::getAutor)
+                .collect(java.util.stream.Collectors.toSet());
     }
 
     @Override
