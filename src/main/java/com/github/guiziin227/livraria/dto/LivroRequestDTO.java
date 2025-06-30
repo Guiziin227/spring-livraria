@@ -27,7 +27,13 @@ public record LivroRequestDTO(
         BigDecimal preco,
 
         @NotNull(message = "Publisher não pode ser nulo")
-        PublisherSimpleDTO publisher
+        PublisherSimpleDTO publisher,
+
+        @NotNull(message = "Categoria não pode ser nula")
+        CategoriaSimpleDTO categoria,
+
+        @NotNull(message = "Autor não pode ser nulo")
+        AutorSimpleDTO autor
 ) {
     public record PublisherSimpleDTO(@NotNull Long id) {}
 }
