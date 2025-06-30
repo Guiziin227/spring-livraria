@@ -83,7 +83,7 @@ public class LivroCategoriaService {
             throw new ResourceNotFoundException("Livro não encontrado com ID: " + categoriaId);
         }
 
-        return livroCategoriaRepository.findByCategoriaId(categoriaId)
+        return livroCategoriaRepository.findByCategoriaIdWithAutores(categoriaId)
                 .stream()
                 .map(LivroCategoria::getLivro)
                 .collect(Collectors.toList());
