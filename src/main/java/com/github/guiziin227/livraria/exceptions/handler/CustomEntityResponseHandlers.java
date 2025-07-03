@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 @RestController
-public class CustomEntityResponseHandlers extends ResponseEntityExceptionHandler {
+public class CustomEntityResponseHandlers {
 
     @ExceptionHandler({Exception.class})
     public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {

@@ -31,12 +31,10 @@ public class ClienteService {
     public Cliente createCliente(Cliente cliente) {
         logger.info("Criando novo cliente: " + cliente.getName());
 
-        // Validar se já existe cliente com o mesmo email
         if (clienteRepository.existsByEmail(cliente.getEmail())) {
             throw new DuplicateResourceException("Já existe um cliente cadastrado com o email: " + cliente.getEmail());
         }
 
-        // Validar se já existe cliente com o mesmo CPF
         if (clienteRepository.existsByCpf(cliente.getCpf())) {
             throw new DuplicateResourceException("Já existe um cliente cadastrado com o CPF: " + cliente.getCpf());
         }

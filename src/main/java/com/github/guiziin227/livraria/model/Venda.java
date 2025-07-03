@@ -4,6 +4,8 @@ import com.github.guiziin227.livraria.model.PK.VendaPK;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -35,4 +38,19 @@ public class Venda implements Serializable {
     @Column(nullable = false)
     private Double valorTotal;
 
+    @ManyToOne
+    @JoinColumn(name = "livro_id", insertable = false, updatable = false)
+    private Livro livro;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Venda venda = (Venda) o;
+        return Objects.equals(id, venda.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

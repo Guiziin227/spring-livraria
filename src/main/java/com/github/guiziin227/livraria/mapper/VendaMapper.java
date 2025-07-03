@@ -56,9 +56,6 @@ public interface VendaMapper {
     @Mapping(target = "id.livroId", source = "livroId")
     void updateEntityFromDTO(VendaRequestDTO dto, @MappingTarget Venda entity);
 
-    /**
-     * Cria uma nova instância de VendaPK a partir do DTO
-     */
     default VendaPK createVendaPK(VendaRequestDTO dto) {
         return new VendaPK(dto.clienteId(), dto.livroId());
     }
