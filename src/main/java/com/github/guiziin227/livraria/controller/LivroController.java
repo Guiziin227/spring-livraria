@@ -32,13 +32,13 @@ public class LivroController {
 
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> getLivroById(@PathVariable Long id) {
-        LivroResponseDTO livro = livroService.getLivroById(id);
+        LivroResponseDTO livro = livroService.findById(id);
         return ResponseEntity.ok(livro);
     }
 
     @GetMapping
     public ResponseEntity<List<LivroResponseDTO>> getAllLivros() {
-        List<LivroResponseDTO> livros = livroService.getAllLivros();
+        List<LivroResponseDTO> livros = livroService.findAll();
         return ResponseEntity.ok(livros);
     }
 
